@@ -1,2 +1,5 @@
-# projeto-de-software
-Projeto de software para ONG Anjos Da Noite
+## Revisão técnica do MVP
+
+Esta revisão tem como objetivo avaliar a organização,
+a legibilidade, a segurança e a manutenção do sistema
+de gestão da ONG Anjos da Noite.
