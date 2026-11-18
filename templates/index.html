@@ -9,19 +9,24 @@
 </head>
 <body>
     <header class="bg-success text-white py-3">
-        <div class="container">
-            <h1 class="h3 mb-1">Anjos da Noite</h1>
-            <p class="mb-0">Gestão de doações e distribuição de marmitas</p>
+        <div class="container d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div>
+                <h1 class="h3 mb-1">Anjos da Noite</h1>
+                <p class="mb-0">Gestão de doações e distribuição de marmitas</p>
+            </div>
+            <form method="post" action="{{ url_for('sair') }}" class="d-flex align-items-center gap-3 flex-wrap">
+                <span class="small text-white">{{ current_user.email }}</span>
+                {{ form_sair.hidden_tag() }}
+                {{ form_sair.sair(class_="btn btn-outline-light") }}
+            </form>
         </div>
     </header>
-
     <main class="container py-5">
         <section class="text-center mb-5">
             <h2 class="mb-3">Bem-vindo ao sistema!</h2>
             <p class="lead">Um jeito simples de organizar as doações e a produção de marmitas.</p>
-            <p class="text-secondary">Esta é a primeira versão do projeto. Os cadastros serão implementados nas próximas etapas.</p>
+            <p class="text-secondary">Seu acesso está protegido por login. Os cadastros serão implementados nas próximas etapas.</p>
         </section>
-
         <div class="row g-4">
             <div class="col-12 col-md-6">
                 <article class="card h-100 shadow-sm">
@@ -43,7 +48,6 @@
             </div>
         </div>
     </main>
-
     <footer class="container py-4 text-center text-secondary small">MVP acadêmico — Projeto de Software</footer>
 </body>
 </html>

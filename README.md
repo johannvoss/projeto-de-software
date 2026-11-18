@@ -1,43 +1,70 @@
 # Anjos da Noite — MVP
 
-Projeto acadêmico de software web responsivo para registrar doações de alimentos e a produção/distribuição de marmitas da ONG fictícia Anjos da Noite.
+Sistema web acadêmico responsivo para registro de doações e controle da produção/distribuição de marmitas de uma ONG fictícia. Interface pensada para voluntários que utilizam celular.
 
-## Ferramentas
+## Tecnologias
 
-Python, Flask, SQLite (previsto para próximas etapas), SQLAlchemy, Bootstrap e Pytest.
+Python, Flask, SQLAlchemy, SQLite, Flask-Login, Flask-WTF (CSRF), Bootstrap e Pytest.
 
-## Executar no Windows (PowerShell)
+## Instalação no Windows (PowerShell)
 
-1. Instale Python 3.11 ou superior, Git e VS Code.
-2. Abra um terminal PowerShell dentro da pasta deste projeto.
-3. Rode:
+Este pacote pode ser extraído por cima da pasta `anjos-da-noite` da etapa 1. O `.venv` que você já criou fica fora dessa pasta e pode ser reaproveitado.
+
+Abra o terminal **dentro** de `anjos-da-noite` e execute:
 
 ```powershell
-py -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe app.py
+..\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
-4. Abra http://127.0.0.1:5000 no navegador.
+## Cadastrar o primeiro voluntário (uma vez)
 
-> A aplicação usa servidor de desenvolvimento e **não deve ser publicada assim** em produção.
+```powershell
+..\.venv\Scripts\python.exe -m flask --app app criar-voluntario
+```
+
+Informe um e-mail e escolha uma senha de pelo menos 8 caracteres. A senha não aparece enquanto é digitada.
+
+## Executar
+
+```powershell
+..\.venv\Scripts\python.exe app.py
+```
+
+Abra: http://127.0.0.1:5000
+
+- Sem login, você será redirecionado para `/entrar`.
+- Após entrar, verá a página inicial que já existia.
+- Use **Sair** para encerrar a sessão.
+- Após cinco tentativas incorretas seguidas para a mesma conta, ela fica bloqueada por quinze minutos.
+
+## Banco de dados
+
+O banco local é criado automaticamente em `instance/database.db` quando a aplicação inicia. Contém as tabelas `voluntarios`, `doacoes` e `marmitas`. Os dois cadastros e o histórico ainda serão implementados nas próximas etapas.
+
+**Não envie** o arquivo `database.db` nem a pasta `.venv` ao GitHub (já estão no `.gitignore`). Para preservar registros locais, faça backup do `database.db` com o sistema fechado.
 
 ## Testes
 
 ```powershell
-.\.venv\Scripts\python.exe -m pytest -q
+..\.venv\Scripts\python.exe -m pytest -q
 ```
 
-## Estado do MVP
+## Segurança e publicação
 
-- [x] Página inicial responsiva
-- [x] Primeiro teste automatizado
-- [ ] Autenticação de voluntários
-- [ ] Banco SQLite
-- [ ] Cadastro de doações
-- [ ] Cadastro e histórico de marmitas
-- [ ] Histórico de registros
-- [ ] CI no GitHub Actions e Pull Request
-- [ ] Validação com a comunidade (duas rodadas)
+- Cadastro de contas somente pelo terminal, não existe formulário de cadastro público.
+- Hash de senha PBKDF2-SHA256 com salt aleatório.
+- Formulários com CSRF, cookie HttpOnly e SameSite=Lax.
+- Em ambiente local o cookie não usa `Secure` para permitir HTTP em `localhost`.
+- **Não publique esta versão diretamente na internet:** para produção, configure HTTPS, `SECRET_KEY` permanente e `COOKIE_SECURE=1`, desative `debug` e use servidor WSGI adequado.
+- O sistema não coleta dados pessoais dos destinatários de marmitas.
 
-Não existem registros fictícios, credenciais reais ou arquivos de banco de dados no repositório.
+## Histórico do desenvolvimento
+
+- [x] Página inicial responsiva.
+- [x] Banco SQLite e modelagem de Voluntário, Doação e Marmita.
+- [x] Login, logout e bloqueio temporário após cinco erros.
+- [x] Testes de autenticação e criação de tabelas (devem ser executados pelo aluno).
+- [ ] Formulários de cadastro de doações e marmitas.
+- [ ] Histórico atualizado.
+- [ ] GitHub Actions, commits e Pull Request.
+- [ ] Duas rodadas de validação real com a comunidade.
