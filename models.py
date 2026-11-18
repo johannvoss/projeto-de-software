@@ -34,6 +34,7 @@ class Doacao(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     alimento: Mapped[str] = mapped_column(String(120), nullable=False)
     quantidade: Mapped[float] = mapped_column(Float, nullable=False)
+    unidade: Mapped[str] = mapped_column(String(20), nullable=False, default="un", server_default="un")
     data_doacao: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=agora_utc)
     voluntario_id: Mapped[int] = mapped_column(ForeignKey("voluntarios.id"), nullable=False)
 

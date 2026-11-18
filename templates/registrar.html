@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+ <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+ <title>{{ titulo }} | ONG Anjos da Noite</title>
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+ <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+</head>
+<body>
+<header class="bg-success text-white py-3"><div class="container d-flex flex-wrap justify-content-between gap-3 align-items-center">
+  <div><h1 class="h3 mb-1">ONG Anjos da Noite</h1><p class="mb-0">Gestão de doações e marmitas</p></div>
+  <form method="post" action="{{ url_for('sair') }}">{{ form_sair.hidden_tag() }}{{ form_sair.sair(class_='btn btn-outline-light') }}</form>
+</div></header>
+<main class="container py-4"><div class="card shadow-sm mx-auto formulario-card"><div class="card-body p-4">
+  <h2 class="h3 mb-3">{{ titulo }}</h2>
+  <p>Preencha todos os campos para salvar o registro.</p>
+  <form method="post" novalidate>
+    {{ form.hidden_tag() }}
+    {% if tipo == 'doacao' %}
+      <div class="mb-3">{{ form.alimento.label(class_='form-label fw-semibold') }}{{ form.alimento(class_='form-control', required=true, maxlength=120) }}{% for erro in form.alimento.errors %}<p class="text-danger mt-1" role="alert">⚠ {{ erro }}</p>{% endfor %}</div>
+      <div class="mb-3">{{ form.quantidade.label(class_='form-label fw-semibold') }}{{ form.quantidade(class_='form-control', type='number', min='0.01', step='0.01', required=true) }}{% for erro in form.quantidade.errors %}<p class="text-danger mt-1" role="alert">⚠ {{ erro }}</p>{% endfor %}</div>
+      <div class="mb-3">{{ form.unidade.label(class_='form-label fw-semibold') }}{{ form.unidade(class_='form-select', required=true) }}{% for erro in form.unidade.errors %}<p class="text-danger mt-1" role="alert">⚠ {{ erro }}</p>{% endfor %}</div>
+    {% else %}
+      <div class="mb-3">{{ form.produzida.label(class_='form-label fw-semibold') }}{{ form.produzida(class_='form-control', type='number', min=1, step=1, required=true) }}{% for erro in form.produzida.errors %}<p class="text-danger mt-1" role="alert">⚠ {{ erro }}</p>{% endfor %}</div>
+      <div class="mb-3">{{ form.distribuida.label(class_='form-label fw-semibold') }}{{ form.distribuida(class_='form-control', type='number', min=0, step=1, required=true) }}{% for erro in form.distribuida.errors %}<p class="text-danger mt-1" role="alert">⚠ {{ erro }}</p>{% endfor %}</div>
+    {% endif %}
+    <div class="mb-4">{{ form.data.label(class_='form-label fw-semibold') }}{{ form.data(class_='form-control', type='date', required=true) }}{% for erro in form.data.errors %}<p class="text-danger mt-1" role="alert">⚠ {{ erro }}</p>{% endfor %}</div>
+    <div class="d-grid gap-3">{{ form.salvar(class_='btn btn-success btn-lg') }}<a href="{{ url_for('inicio') }}" class="btn btn-outline-secondary btn-lg">Cancelar / Voltar</a></div>
+  </form>
+</div></div></main>
+<footer class="container py-4 text-center text-secondary">MVP acadêmico — Projeto de Software</footer>
+</body></html>

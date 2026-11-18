@@ -61,7 +61,7 @@ def test_login_e_logout(cliente):
         "email": "teste@exemplo.com", "senha": "senha-forte-de-teste"
     }, follow_redirects=True)
     assert resposta.status_code == 200
-    assert b"Bem-vindo ao sistema" in resposta.data
+    assert b"Painel do dia" in resposta.data
     assert b"teste@exemplo.com" in resposta.data
 
     resposta = cliente.post("/sair", follow_redirects=True)
@@ -98,4 +98,4 @@ def test_bloqueio_expirado_permite_login(cliente, app_teste):
     resposta = cliente.post("/entrar", data={
         "email": "teste@exemplo.com", "senha": "senha-forte-de-teste"
     }, follow_redirects=True)
-    assert b"Bem-vindo ao sistema" in resposta.data
+    assert b"Painel do dia" in resposta.data

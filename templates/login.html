@@ -10,7 +10,7 @@
 <body>
     <header class="bg-success text-white py-3">
         <div class="container">
-            <h1 class="h3 mb-1">Anjos da Noite</h1>
+            <h1 class="h3 mb-1">ONG Anjos da Noite</h1>
             <p class="mb-0">Gestão de doações e distribuição de marmitas</p>
         </div>
     </header>
@@ -21,19 +21,19 @@
                 <p class="text-secondary mb-4">Entre com o e-mail e a senha cadastrados.</p>
                 {% with mensagens = get_flashed_messages(with_categories=true) %}
                   {% for categoria, mensagem in mensagens %}
-                    <div class="alert alert-{{ categoria }}" role="alert">{{ mensagem }}</div>
+                    <div class="alert alert-{{ categoria }}" role="alert">⚠ {{ mensagem }}</div>
                   {% endfor %}
                 {% endwith %}
                 <form method="post" action="{{ url_for('entrar') }}">
                     {{ form.hidden_tag() }}
                     <div class="mb-3">
                         {{ form.email.label(class_="form-label fw-semibold") }}
-                        {{ form.email(class_="form-control form-control-lg", type="email", placeholder="voluntario@exemplo.com", autocomplete="username") }}
+                        {{ form.email(class_="form-control form-control-lg", type="email", placeholder="voluntario@exemplo.com", autocomplete="username", required=true) }}
                         {% for erro in form.email.errors %}<p class="text-danger small mt-1 mb-0">{{ erro }}</p>{% endfor %}
                     </div>
                     <div class="mb-4">
                         {{ form.senha.label(class_="form-label fw-semibold") }}
-                        {{ form.senha(class_="form-control form-control-lg", autocomplete="current-password") }}
+                        {{ form.senha(class_="form-control form-control-lg", autocomplete="current-password", required=true) }}
                         {% for erro in form.senha.errors %}<p class="text-danger small mt-1 mb-0">{{ erro }}</p>{% endfor %}
                     </div>
                     {{ form.entrar(class_="btn btn-success btn-lg w-100") }}

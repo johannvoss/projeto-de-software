@@ -1,12 +1,13 @@
-body {
-    background: #f5f7f6;
-    color: #21342b;
-}
-
-.card {
-    border-radius: 1rem;
-}
-
-.btn-lg {
-    min-height: 3.5rem;
-}
+:root { font-size: 16px; }
+body { background: #f5f7f6; color: #21342b; font-size: 1rem; }
+.card { border-radius: 1rem; }
+.formulario-card { max-width: 600px; }
+.btn, .form-control, .form-select { min-height: 44px; font-size: 1rem; }
+.btn { padding: .65rem 1rem; }
+a, button { min-width: 44px; }
+:focus-visible { outline: 3px solid #ffbd28 !important; outline-offset: 3px; }
+.numero { font-size: 2.3rem; font-weight: 700; }
+.usuario { overflow-wrap: anywhere; }
+.text-success { color: #14653c !important; }
+.text-primary { color: #164a83 !important; }
+@media (max-width: 576px) { .container { padding-left: 16px; padding-right: 16px; } }

@@ -1,70 +1,45 @@
-# Anjos da Noite — MVP
+# ONG Anjos da Noite — MVP (Etapa 3)
 
-Sistema web acadêmico responsivo para registro de doações e controle da produção/distribuição de marmitas de uma ONG fictícia. Interface pensada para voluntários que utilizam celular.
+Sistema acadêmico simples para gestão de doações e distribuição de marmitas. Desenvolvido com Flask, SQLAlchemy, SQLite, Bootstrap e Pytest.
 
-## Tecnologias
+## Atualizar sem perder seu usuário
 
-Python, Flask, SQLAlchemy, SQLite, Flask-Login, Flask-WTF (CSRF), Bootstrap e Pytest.
-
-## Instalação no Windows (PowerShell)
-
-Este pacote pode ser extraído por cima da pasta `anjos-da-noite` da etapa 1. O `.venv` que você já criou fica fora dessa pasta e pode ser reaproveitado.
-
-Abra o terminal **dentro** de `anjos-da-noite` e execute:
+1. Faça uma cópia de segurança do arquivo `instance/database.db` da versão anterior.
+2. Copie os arquivos deste pacote para a **mesma pasta `anjos-da-noite`** usada anteriormente, sobrescrevendo os arquivos de código.
+3. **Não substitua nem apague `instance/` e `.venv/`.** Não copie o banco de dados de outro projeto.
+4. Execute, na pasta `anjos-da-noite`, com o ambiente virtual ativado:
 
 ```powershell
-..\.venv\Scripts\python.exe -m pip install -r requirements.txt
+python -m pip install -r requirements.txt
+python app.py
 ```
 
-## Cadastrar o primeiro voluntário (uma vez)
+Acesse http://127.0.0.1:5000 e entre com o mesmo e-mail e senha da etapa anterior.
+
+## Criar um novo voluntário (somente se necessário)
 
 ```powershell
-..\.venv\Scripts\python.exe -m flask --app app criar-voluntario
+python -m flask --app app criar-voluntario
 ```
 
-Informe um e-mail e escolha uma senha de pelo menos 8 caracteres. A senha não aparece enquanto é digitada.
-
-## Executar
+## Testar
 
 ```powershell
-..\.venv\Scripts\python.exe app.py
+python -m pytest -q
 ```
 
-Abra: http://127.0.0.1:5000
+## Funcionalidades
 
-- Sem login, você será redirecionado para `/entrar`.
-- Após entrar, verá a página inicial que já existia.
-- Use **Sair** para encerrar a sessão.
-- Após cinco tentativas incorretas seguidas para a mesma conta, ela fica bloqueada por quinze minutos.
+- Login de voluntário autorizado e saída segura.
+- Dashboard com totais diários.
+- Cadastro de doações de alimentos (quantidade e unidade).
+- Cadastro de marmitas produzidas e distribuídas.
+- Histórico recente ordenado por data.
+- Validação no servidor e token CSRF nos formulários.
 
-## Banco de dados
+## Limites
 
-O banco local é criado automaticamente em `instance/database.db` quando a aplicação inicia. Contém as tabelas `voluntarios`, `doacoes` e `marmitas`. Os dois cadastros e o histórico ainda serão implementados nas próximas etapas.
-
-**Não envie** o arquivo `database.db` nem a pasta `.venv` ao GitHub (já estão no `.gitignore`). Para preservar registros locais, faça backup do `database.db` com o sistema fechado.
-
-## Testes
-
-```powershell
-..\.venv\Scripts\python.exe -m pytest -q
-```
-
-## Segurança e publicação
-
-- Cadastro de contas somente pelo terminal, não existe formulário de cadastro público.
-- Hash de senha PBKDF2-SHA256 com salt aleatório.
-- Formulários com CSRF, cookie HttpOnly e SameSite=Lax.
-- Em ambiente local o cookie não usa `Secure` para permitir HTTP em `localhost`.
-- **Não publique esta versão diretamente na internet:** para produção, configure HTTPS, `SECRET_KEY` permanente e `COOKIE_SECURE=1`, desative `debug` e use servidor WSGI adequado.
-- O sistema não coleta dados pessoais dos destinatários de marmitas.
-
-## Histórico do desenvolvimento
-
-- [x] Página inicial responsiva.
-- [x] Banco SQLite e modelagem de Voluntário, Doação e Marmita.
-- [x] Login, logout e bloqueio temporário após cinco erros.
-- [x] Testes de autenticação e criação de tabelas (devem ser executados pelo aluno).
-- [ ] Formulários de cadastro de doações e marmitas.
-- [ ] Histórico atualizado.
-- [ ] GitHub Actions, commits e Pull Request.
-- [ ] Duas rodadas de validação real com a comunidade.
+- Projeto local/de demonstração. Não exponha o servidor Flask diretamente na internet.
+- Sem edição e exclusão de registros nesta versão.
+- O limite de tempo de carregamento e WCAG AA precisam ser avaliados em testes com usuários/dispositivos reais.
+- O banco `instance/database.db` está ignorado no Git por segurança. Nunca publique senhas ou segredos.
