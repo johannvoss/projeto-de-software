@@ -1,0 +1,41 @@
+
+name: Testes automatizados - Anjos da Noite
+
+on:
+  push:
+    branches: [main, melhoria/monitoramento]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-e-testes:
+    name: Build e testes do MVP
+    runs-on: ubuntu-latest
+
+    env:
+      SECRET_KEY: chave-exclusiva-para-testes-automatizados
+
+    steps:
+      - name: Baixar codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip install pytest-cov
+
+      - name: Verificar sintaxe
+        run: python -m compileall -q app.py forms.py models.py
+
+      - name: Executar testes
+        run: python -m pytest -q --cov=app --cov=forms --cov=models --cov-report=term-missing
