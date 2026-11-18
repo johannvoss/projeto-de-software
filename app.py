@@ -29,6 +29,9 @@ def data_hora_local(data):
 def criar_app(configuracao=None):
     app = Flask(__name__)
     Path(app.instance_path).mkdir(parents=True, exist_ok=True)
+    # Em producao, a chave precisa ser fixa entre reinicios para manter as sessoes validas.
+    if os.getenv('COOKIE_SECURE') == '1' and not os.getenv('SECRET_KEY'):
+        raise RuntimeError('Defina SECRET_KEY antes de iniciar em producao.')
     app.config.update(
         SECRET_KEY=os.getenv('SECRET_KEY') or secrets.token_hex(32),
         DATABASE_URL=os.getenv('DATABASE_URL') or f"sqlite:///{(Path(app.instance_path) / 'database.db').as_posix()}",
@@ -65,6 +68,17 @@ def criar_app(configuracao=None):
             return None
         with fabrica_sessoes() as sessao:
             return sessao.get(Voluntario, numero)
+
+    # Endpoint publico minimo para monitoramento, sem revelar dados ou contas.
+    @app.get('/saude')
+    def saude():
+        try:
+            with engine.connect() as conexao:
+                conexao.execute(text('SELECT 1'))
+            return 'OK', 200, {'Content-Type': 'text/plain; charset=utf-8'}
+        except Exception:
+            app.logger.exception('Falha na verificacao de saude do banco')
+            return 'Indisponivel', 503, {'Content-Type': 'text/plain; charset=utf-8'}
 
     @app.get('/')
     @login_required
